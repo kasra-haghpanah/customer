@@ -1,0 +1,47 @@
+-----------------------------------------------------
+xampp
+ mysql.ini
+  max_allowed_packet=600M
+-----------------------------------------------------
+xampp
+ httpd.conf
+  Listen 81
+-----------------------------------------------------
+xampp
+ php.ini
+  post_max_size = 800M
+  upload_max_filesize = 800M
+  max_execution_time = 5000
+  max_input_time = 5000
+  memory_limit = 1000M
+-----------------------------------------------------
+xampp
+ config.inc.php
+  $cfg['Servers'][$i]['user'] = 'root';
+  $cfg['Servers'][$i]['password'] = '123';
+-----------------------------------------------------
+xampp -> Apache -> start
+-----------------------------------------------------
+xampp -> MySQL -> start
+-----------------------------------------------------
+For run application:
+----------------------
+mvn clean install
+debuge remote
+---------------------- or
+cd view
+mvn javafx:run
+debug remote
+-----------------------------------------------------
+java --module-path "C:/PC/Application/JAVA-APLICATIONS/javafx-sdk-21.0.2/lib" --add-modules javafx.controls,javafx.fxml,javafx.graphics --enable-native-access=javafx.graphics -Djava.library.path="C:/PC/Application/JAVA-APLICATIONS/javafx-sdk-21.0.2/bin" -agentlib:native-image-agent=config-output-dir=src/main/resources/config -jar target/view.jar
+
+
+-----------------------------------------------------
+For just build:
+----------------------
+mvn clean install -Pbuild
+-----------------------------------------------------
+For build native image:
+----------------------
+mvn clean install -Pnative-image
+-----------------------------------------------------

@@ -1,0 +1,6 @@
+java --module-path "C:/PC/Application/JAVA-APLICATIONS/javafx-sdk-21.0.2/lib" ^
+--add-modules javafx.controls,javafx.fxml,javafx.graphics ^
+--enable-native-access=javafx.graphics,ALL-UNNAMED ^
+-Djava.library.path="C:/PC/Application/JAVA-APLICATIONS/javafx-sdk-21.0.2/bin" ^
+-agentlib:native-image-agent=config-merge-dir=src/main/resources/config ^
+-jar target/view.jar
