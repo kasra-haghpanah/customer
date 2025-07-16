@@ -330,9 +330,8 @@
 
                                 <buildArg>--initialize-at-build-time=javafx.application.Platform</buildArg>
                                 <buildArg>--initialize-at-run-time=com.sun.prism.sw.SWPipeline</buildArg>
-                               <!-- <buildArg>&#45;&#45;add-exports=javafx.graphics/com.sun.prism.sw=ALL-UNNAMED</buildArg>
-                                <buildArg>&#45;&#45;add-exports=javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED</buildArg>
--->
+                                <buildArg>--add-exports=javafx.graphics/com.sun.prism.sw=ALL-UNNAMED</buildArg>
+                                <buildArg>--add-exports=javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED</buildArg>
 
 
                                 <buildArg>--initialize-at-build-time=org.application.desktop.MainApp</buildArg>
