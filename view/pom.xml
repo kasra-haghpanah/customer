@@ -15,7 +15,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>24</java.version>
-        <javafx.version>24.0.1</javafx.version>
+        <javafx.version>25-ea+24</javafx.version>
         <javafx.sdk>C:/PC/Application/JAVA-APLICATIONS/javafx-sdk-21.0.2</javafx.sdk>
     </properties>
     <dependencies>
@@ -36,12 +36,6 @@
             <artifactId>graal-sdk</artifactId>
             <version>24.0.1</version>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.graalvm.nativeimage</groupId>
-            <artifactId>native-image-maven-plugin</artifactId>
-            <version>21.2.0</version>
         </dependency>
 
         <!--        <dependency>
@@ -69,6 +63,12 @@
             <version>${javafx.version}</version>
             <classifier>win</classifier>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>win</classifier>
+        </dependency>
 
 
     </dependencies>
@@ -77,6 +77,7 @@
             <!--
                          java &#45;&#45;module-path "C:/PC/Application/JAVA-APLICATIONS/javafx-sdk-21.0.2/lib" &#45;&#45;add-modules javafx.controls,javafx.fxml -jar application-1.0-SNAPSHOT-shaded.jar
 -->
+
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -138,6 +139,42 @@
             <!-- taskkill /PID 9304 /F -->
 
 
+            <plugin>
+                <groupId>com.gluonhq</groupId>
+                <artifactId>gluonfx-maven-plugin</artifactId>
+                <version>1.0.24</version> <!-- آخرین نسخه را بررسی کنید -->
+                <configuration>
+                    <target>win</target> <!-- برای سیستم عامل میزبان -->
+                    <mainClass>org.application.desktop.MainApp</mainClass> <!-- کلاس اصلی برنامه -->
+                    <bundlesList>
+                        <!-- منابعی که باید در native image گنجانده شوند -->
+                        <list>org.application</list>
+                    </bundlesList>
+                    <reflectionList>
+                        <!-- کلاس‌هایی که نیاز به reflection دارند -->
+                        <list>org.application.desktop.MainApp</list>
+                    </reflectionList>
+                    <nativeImageArgs>
+                        <!-- آرگومان‌های اضافی برای native-image -->
+                        <arg>--allow-incomplete-classpath</arg>
+                        <arg>--initialize-at-build-time=com.sun.javafx</arg>
+                        <arg>--initialize-at-run-time=javafx.embed.swing.JFXPanel</arg>
+                    </nativeImageArgs>
+
+                    <attachList>
+                        <list>win</list>
+                        <list>display, lifecycle, statusbar</list>
+                    </attachList>
+
+                    <!-- <winConfig>
+                         <console>false</console> &lt;!&ndash; برای برنامه‌های GUI بهتر است false باشد &ndash;&gt;
+                         <icon>${project.basedir}/src/main/resources/icons/app.ico</icon>
+                     </winConfig>-->
+
+                </configuration>
+            </plugin>
+
+
         </plugins>
 
         <resources>
@@ -173,7 +210,7 @@
 
             </properties>
             <activation> <!-- for run application -->
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
                 <property>
                     <name>build</name>
                     <value>develop</value>
@@ -255,9 +292,90 @@
 
                 <plugins>
 
-                    <!-- GraalVM Native Image Plugin -->
+                    <plugin>
+                        <groupId>com.gluonhq</groupId>
+                        <artifactId>gluonfx-maven-plugin</artifactId>
+                        <version>1.0.24</version> <!-- آخرین نسخه را بررسی کنید -->
+                        <configuration>
+                            <target>host</target> <!-- برای سیستم عامل میزبان -->
+                            <mainClass>org.application.desktop.MainApp</mainClass> <!-- کلاس اصلی برنامه -->
+                            <bundlesList>
+                                <!-- منابعی که باید در native image گنجانده شوند -->
+                                <list>org.application</list>
+                            </bundlesList>
+                            <reflectionList>
+                                <!-- کلاس‌هایی که نیاز به reflection دارند -->
+                                <list>org.application.desktop.MainApp</list>
+                            </reflectionList>
+                            <nativeImageArgs>
+                                <!-- آرگومان‌های اضافی برای native-image -->
+                                <arg>--allow-incomplete-classpath</arg>
+                                <arg>--initialize-at-build-time=com.sun.javafx</arg>
+                            </nativeImageArgs>
+
+                            <attachList>
+                                <list>win</list>
+                                <list>display, lifecycle, statusbar</list>
+                            </attachList>
+
+                           <!-- <winConfig>
+                                <console>false</console> &lt;!&ndash; برای برنامه‌های GUI بهتر است false باشد &ndash;&gt;
+                                <icon>${project.basedir}/src/main/resources/icons/app.ico</icon>
+                            </winConfig>-->
+
+                        </configuration>
+                    </plugin>
+
+<!--
 
                     <plugin>
+                        <groupId>org.graalvm.nativeimage</groupId>
+                        <artifactId>native-image-maven-plugin</artifactId>
+                        <version>21.2.0</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>native-image</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <imageName>application</imageName>
+                            <mainClass>org.application.desktop.MainApp</mainClass>
+
+                            <buildArgs>
+                                <buildArg>&#45;&#45;no-fallback</buildArg>
+                                <buildArg>&#45;&#45;enable-https</buildArg>
+                                <buildArg>&#45;&#45;enable-url-protocols=http,https</buildArg>
+                                <buildArg>&#45;&#45;enable-native-access=ALL-UNNAMED</buildArg>
+
+                                &lt;!&ndash; گزارش‌گیری و دیباگ &ndash;&gt;
+                                <buildArg>-H:+ReportExceptionStackTraces</buildArg>
+                                <buildArg>-H:+ReportUnsupportedElementsAtRuntime</buildArg>
+                                <buildArg>&#45;&#45;verbose</buildArg>
+
+                                &lt;!&ndash; منابع گرافیکی &ndash;&gt;
+                                <buildArg>-H:IncludeResources=.*\\.css</buildArg>
+                                <buildArg>-H:IncludeResources=.*\\.fxml</buildArg>
+                                <buildArg>-H:IncludeResources=.*\\.png</buildArg>
+
+                                &lt;!&ndash; initialize فقط چیزهایی که crash می‌دهند &ndash;&gt;
+                                <buildArg>&#45;&#45;initialize-at-run-time=javafx.application.Platform</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=com.sun.javafx.tk.quantum.QuantumToolkit</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=com.sun.glass.ui</buildArg>
+
+                                &lt;!&ndash; کلاس اصلی برای trace &ndash;&gt;
+                                <buildArg>-H:TraceClassInitialization=org.application.desktop.MainApp</buildArg>
+
+                                &lt;!&ndash; حافظه &ndash;&gt;
+                                <buildArg>-J-Xmx4G</buildArg>
+                            </buildArgs>
+                        </configuration>
+                    </plugin>
+-->
+
+
+                  <!--  <plugin>
                         <groupId>org.graalvm.buildtools</groupId>
                         <artifactId>native-maven-plugin</artifactId>
                         <version>0.10.6</version>
@@ -267,104 +385,105 @@
                             <buildArgs>
 
 
-                                <buildArg>--initialize-at-build-time=com.sun.javafx.logging.PlatformLogger</buildArg>
-                                <buildArg>--initialize-at-build-time=javafx.css</buildArg>
-                                <buildArg>--initialize-at-build-time=com.sun.javafx.css</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=com.sun.javafx.logging.PlatformLogger</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=javafx.css</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=com.sun.javafx.css</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=javafx.scene.Scene$2</buildArg>
                                 <buildArg>-H:IncludeResources=.*\\.css</buildArg>
                                 <buildArg>-H:IncludeResources=.*\\.bss</buildArg>
 
-                                <buildArg>--initialize-at-build-time=com.sun.scenario.animation.SplineInterpolator</buildArg>
-                                <buildArg>--initialize-at-build-time=com.sun.scenario.animation.StepInterpolator</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=com.sun.scenario.animation.SplineInterpolator</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=com.sun.scenario.animation.StepInterpolator</buildArg>
 
 
-                                <buildArg>--verbose</buildArg>
-                                <buildArg>--diagnostics-mode</buildArg>
+                                <buildArg>&#45;&#45;verbose</buildArg>
+                                <buildArg>&#45;&#45;diagnostics-mode</buildArg>
 
-                                <buildArg>--initialize-at-run-time=io.netty</buildArg>
-                                <buildArg>--initialize-at-run-time=org.slf4j</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=io.netty</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=org.slf4j</buildArg>
 
-                                <!-- add memory-->
+                                &lt;!&ndash; add memory&ndash;&gt;
                                 <buildArg>-J-Xmx8G</buildArg>
-                                <!--<buildArg>&#45;&#45;no-fallback</buildArg>-->
-                                <buildArg>--enable-url-protocols=http,https</buildArg>
-                                <buildArg>--enable-native-access=ALL-UNNAMED</buildArg>
+                                &lt;!&ndash;<buildArg>&#45;&#45;no-fallback</buildArg>&ndash;&gt;
+                                <buildArg>&#45;&#45;enable-url-protocols=http,https</buildArg>
+                                <buildArg>&#45;&#45;enable-native-access=ALL-UNNAMED</buildArg>
 
                                 <buildArg>-H:+ReportExceptionStackTraces</buildArg>
 
-                                <!--<buildArg>-H:+TraceClassInitialization</buildArg>-->
+                                <buildArg>-H:+TraceClassInitialization</buildArg>
                                 <buildArg>-H:+PrintClassInitialization</buildArg>
-                                <buildArg>--no-fallback</buildArg>
+                                <buildArg>&#45;&#45;no-fallback</buildArg>
 
                                 <buildArg>-H:+AddAllCharsets</buildArg>
                                 <buildArg>-H:+UnlockExperimentalVMOptions</buildArg>
                                 <buildArg>-H:ConfigurationFileDirectories=${project.basedir}/src/main/resources/config</buildArg>
 
 
-                                <buildArg>--initialize-at-run-time=javafx.scene.control.PopupControl</buildArg>
-                                <buildArg>--initialize-at-run-time=javafx.scene</buildArg>
-                                <buildArg>--initialize-at-run-time=javafx.scene.control</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=javafx.scene.control.PopupControl</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=javafx.scene</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=javafx.scene.control</buildArg>
 
-                                <buildArg>--initialize-at-build-time=javafx.scene.image.Image$1</buildArg>
-                                <buildArg>--initialize-at-build-time=javafx.scene.input.KeyCodeCombination</buildArg>
-                                <buildArg>--initialize-at-build-time=javafx.scene.input.KeyCombination$Modifier</buildArg>
-                                <buildArg>--initialize-at-build-time=javafx.scene.input.KeyCode</buildArg>
-                                <buildArg>--initialize-at-build-time=javafx.scene.input.KeyCombination$ModifierValue</buildArg>
-                                <buildArg>--initialize-at-build-time=javafx.scene.input.KeyCombination$1</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=javafx.scene.image.Image$1</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=javafx.scene.input.KeyCodeCombination</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=javafx.scene.input.KeyCombination$Modifier</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=javafx.scene.input.KeyCode</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=javafx.scene.input.KeyCombination$ModifierValue</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=javafx.scene.input.KeyCombination$1</buildArg>
 
-                                <!-- برای حل مشکل thread در JavaFX -->
-                                <buildArg>--initialize-at-run-time=javafx.stage.Screen</buildArg>
-                                <buildArg>--initialize-at-run-time=com.sun.glass.ui.Application</buildArg>
-
-
-                                <buildArg>--initialize-at-run-time=com.sun.javafx.tk.quantum.QuantumToolkit</buildArg>
-
-                                <buildArg>--initialize-at-run-time=javafx.stage</buildArg>
-                                <buildArg>--initialize-at-run-time=javafx.graphics</buildArg>
+                                &lt;!&ndash; برای حل مشکل thread در JavaFX &ndash;&gt;
+                                <buildArg>&#45;&#45;initialize-at-run-time=javafx.stage.Screen</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=com.sun.glass.ui.Application</buildArg>
 
 
-                                <buildArg>--initialize-at-run-time=javafx.scene.control.PopupControl$1</buildArg>
-                                <buildArg>--initialize-at-run-time=javafx.scene.control.PopupControl$2</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=com.sun.javafx.tk.quantum.QuantumToolkit</buildArg>
 
-                                <buildArg>--initialize-at-build-time=javafx.graphics,javafx.controls,javafx.base,javafx.fxml</buildArg>
-
-
-                                <buildArg>--initialize-at-build-time=javafx.application.Platform</buildArg>
-                                <buildArg>--initialize-at-run-time=com.sun.prism.sw.SWPipeline</buildArg>
-                                <buildArg>--add-exports=javafx.graphics/com.sun.prism.sw=ALL-UNNAMED</buildArg>
-                                <buildArg>--add-exports=javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=javafx.stage</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=javafx.graphics</buildArg>
 
 
-                                <buildArg>--initialize-at-build-time=org.application.desktop.MainApp</buildArg>
-                                <buildArg>--initialize-at-build-time=javafx.application.Application</buildArg>
-                                <buildArg>--initialize-at-build-time=com.sun.javafx.application.PlatformImpl</buildArg>
-                                <buildArg>--initialize-at-run-time=com.sun.glass.ui</buildArg>
-                                <buildArg>--initialize-at-run-time=com.sun.javafx.tk.quantum</buildArg>
-                                <buildArg>--initialize-at-run-time=com.sun.prism.d3d.D3DPipeline</buildArg>
-                                <buildArg>--initialize-at-run-time=org.mariadb.jdbc.Driver</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=javafx.scene.control.PopupControl$1</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=javafx.scene.control.PopupControl$2</buildArg>
+
+                                <buildArg>&#45;&#45;initialize-at-build-time=javafx.graphics,javafx.controls,javafx.base,javafx.fxml</buildArg>
+
+
+                                <buildArg>&#45;&#45;initialize-at-build-time=javafx.application.Platform</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=com.sun.prism.sw.SWPipeline</buildArg>
+                                <buildArg>&#45;&#45;add-exports=javafx.graphics/com.sun.prism.sw=ALL-UNNAMED</buildArg>
+                                <buildArg>&#45;&#45;add-exports=javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED</buildArg>
+
+
+                                <buildArg>&#45;&#45;initialize-at-build-time=org.application.desktop.MainApp</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=javafx.application.Application</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=com.sun.javafx.application.PlatformImpl</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=com.sun.glass.ui</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=com.sun.javafx.tk.quantum</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=com.sun.prism.d3d.D3DPipeline</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=org.mariadb.jdbc.Driver</buildArg>
 
 
                                 <buildArg>
-                                    --initialize-at-build-time=javafx.beans.property.SimpleBooleanProperty,javafx.beans.property,javafx.beans
+                                    &#45;&#45;initialize-at-build-time=javafx.beans.property.SimpleBooleanProperty,javafx.beans.property,javafx.beans
                                 </buildArg>
 
-                                <buildArg>--trace-object-instantiation=java.lang.Thread</buildArg>
-                                <buildArg>--report-unsupported-elements-at-runtime</buildArg>
+                                <buildArg>&#45;&#45;trace-object-instantiation=java.lang.Thread</buildArg>
+                                <buildArg>&#45;&#45;report-unsupported-elements-at-runtime</buildArg>
 
 
-                                <buildArg>--trace-object-instantiation=java.lang.Thread</buildArg>
+                                <buildArg>&#45;&#45;trace-object-instantiation=java.lang.Thread</buildArg>
 
-                                <!-- تنظیمات گرافیک -->
+                                &lt;!&ndash; تنظیمات گرافیک &ndash;&gt;
                                 <buildArg>-Dprism.order=sw,d3d</buildArg>
                                 <buildArg>-H:IncludeResources=com/sun/prism/d3d/.*</buildArg>
                                 <buildArg>-H:IncludeResources=com/sun/prism/es2/.*</buildArg>
 
                                 <buildArg>-Djava.awt.headless=true</buildArg>
                                 <buildArg>-Dprism.verbose=true</buildArg>
-                                <buildArg>--allow-incomplete-classpath</buildArg>
+                                <buildArg>&#45;&#45;allow-incomplete-classpath</buildArg>
 
-                                <buildArg>--initialize-at-build-time=com.sun.glass.ui</buildArg>
-                                <buildArg>--initialize-at-build-time=com.sun.javafx.tk</buildArg>
-                                <buildArg>--initialize-at-run-time=com.sun.javafx.tk.quantum.QuantumRenderer</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=com.sun.glass.ui</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=com.sun.javafx.tk</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-run-time=com.sun.javafx.tk.quantum.QuantumRenderer</buildArg>
 
                                 <buildArg>-H:IncludeResources=com/sun/javafx/font/.*</buildArg>
                                 <buildArg>-H:IncludeResources=com/sun/prism/.*</buildArg>
@@ -372,10 +491,10 @@
                                 <buildArg>-H:IncludeResourceBundles=com.sun.prism</buildArg>
                                 <buildArg>-H:IncludeResourceBundles=com.sun.prism.resources.prism</buildArg>
 
-                                <buildArg>--initialize-at-build-time=com.sun.prism.sw</buildArg>
-                                <buildArg>--initialize-at-build-time=com.sun.javafx.tk.quantum</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=com.sun.prism.sw</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=com.sun.javafx.tk.quantum</buildArg>
 
-                                <buildArg>--initialize-at-build-time=javafx</buildArg>
+                                <buildArg>&#45;&#45;initialize-at-build-time=javafx</buildArg>
                                 <buildArg>-H:IncludeResources=.*fxml$</buildArg>
                                 <buildArg>-H:IncludeResources=.*css$</buildArg>
                                 <buildArg>-H:IncludeResources=.*png$</buildArg>
@@ -397,7 +516,7 @@
                             </execution>
                         </executions>
                     </plugin>
-
+-->
 
                     <!--                    <plugin>
                                             <groupId>org.codehaus.mojo</groupId>
