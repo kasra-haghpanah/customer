@@ -19,9 +19,6 @@
       "type": "com.sun.glass.ui.Screen"
     },
     {
-      "type": "com.sun.glass.ui.win.WinDnDClipboard"
-    },
-    {
       "type": "com.sun.glass.ui.win.WinGestureSupport"
     },
     {
@@ -795,26 +792,6 @@
       ]
     },
     {
-      "type": "com.sun.glass.ui.Clipboard",
-      "fields": [
-        {
-          "name": "name"
-        }
-      ],
-      "methods": [
-        {
-          "name": "actionPerformed",
-          "parameterTypes": [
-            "int"
-          ]
-        },
-        {
-          "name": "contentChanged",
-          "parameterTypes": []
-        }
-      ]
-    },
-    {
       "type": "com.sun.glass.ui.Cursor",
       "methods": [
         {
@@ -1401,21 +1378,6 @@
       "type": "com.sun.glass.ui.win.WinApplication"
     },
     {
-      "type": "com.sun.glass.ui.win.WinDnDClipboard",
-      "methods": [
-        {
-          "name": "getInstance",
-          "parameterTypes": []
-        },
-        {
-          "name": "setDragButton",
-          "parameterTypes": [
-            "int"
-          ]
-        }
-      ]
-    },
-    {
       "type": "com.sun.glass.ui.win.WinGestureSupport",
       "methods": [
         {
@@ -1475,23 +1437,6 @@
     },
     {
       "type": "com.sun.glass.ui.win.WinPixels"
-    },
-    {
-      "type": "com.sun.glass.ui.win.WinSystemClipboard",
-      "fields": [
-        {
-          "name": "ptr"
-        }
-      ],
-      "methods": [
-        {
-          "name": "fosSerialize",
-          "parameterTypes": [
-            "java.lang.String",
-            "long"
-          ]
-        }
-      ]
     },
     {
       "type": "com.sun.glass.ui.win.WinVariant",

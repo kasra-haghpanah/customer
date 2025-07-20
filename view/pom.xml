@@ -304,6 +304,13 @@
                                         <arg>-Dprism.verbose=true</arg>
                                         <arg>-Djavafx.verbose=true</arg>
 
+
+                                        <arg>--enable-url-protocols=http,https</arg>
+                                        <arg>--initialize-at-build-time=org.application</arg>
+                                        <!--<arg>-H:ResourceConfigurationFiles=src/main/resources/config/view/resource-config.json</arg>
+                                        <arg>-H:ReflectionConfigurationFiles=src/main/resources/config/view/reflect-config.json</arg>-->
+                                        <arg>-H:ReachabilityMetadataFiles=src/main/resources/config/reachability-metadata.json</arg>
+
                                     </nativeImageArgs>
 
                                     <!-- لیست کلاس‌های مورد نیاز برای Reflection -->
