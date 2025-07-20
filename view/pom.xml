@@ -70,7 +70,6 @@
             <classifier>win</classifier>
         </dependency>
 
-
     </dependencies>
     <build>
         <plugins>
@@ -271,40 +270,74 @@
 
                     -->
 
-                    <plugin>
-                        <groupId>com.gluonhq</groupId>
-                        <artifactId>gluonfx-maven-plugin</artifactId>
-                        <version>1.0.24</version> <!-- آخرین نسخه را بررسی کنید -->
-                        <configuration>
-                            <target>win</target> <!-- برای سیستم عامل میزبان -->
-                            <mainClass>org.application.desktop.MainApp</mainClass> <!-- کلاس اصلی برنامه -->
-                            <bundlesList>
-                                <!-- منابعی که باید در native image گنجانده شوند -->
-                                <list>org.application</list>
-                            </bundlesList>
-                            <reflectionList>
-                                <!-- کلاس‌هایی که نیاز به reflection دارند -->
-                                <list>org.application.desktop.MainApp</list>
-                            </reflectionList>
-                            <nativeImageArgs>
-                                <!-- آرگومان‌های اضافی برای native-image -->
-                                <arg>--allow-incomplete-classpath</arg>
-                                <arg>--initialize-at-build-time=com.sun.javafx</arg>
-                                <arg>--initialize-at-run-time=javafx.embed.swing.JFXPanel</arg>
-                            </nativeImageArgs>
+                            <plugin>
+                                <groupId>com.gluonhq</groupId>
+                                <artifactId>gluonfx-maven-plugin</artifactId>
+                                <version>1.0.20</version> <!-- یا آخرین نسخه -->
+                                <configuration>
+                                    <!-- هدف ساخت (host, linux, windows, macos, ios, android) -->
+                                    <target>windows</target>
 
-                            <attachList>
-                                <list>win</list>
-                                <list>display, lifecycle, statusbar</list>
-                            </attachList>
+                                    <!-- کلاس اصلی برنامه -->
+                                    <mainClass>org.application.desktop.MainApp</mainClass> <!-- اصلاح کنید -->
 
-                            <!-- <winConfig>
-                                 <console>false</console> &lt;!&ndash; برای برنامه‌های GUI بهتر است false باشد &ndash;&gt;
-                                 <icon>${project.basedir}/src/main/resources/icons/app.ico</icon>
-                             </winConfig>-->
+                                    <!-- تنظیمات GraalVM Native Image -->
+                                    <nativeImageArgs>
+                                        <!-- فعال‌سازی گزارش خطاهای دقیق -->
+                                        <arg>--verbose</arg>
+                                        <arg>-H:+ReportExceptionStackTraces</arg>
 
-                        </configuration>
-                    </plugin>
+                                        <!-- اجازه استفاده از classpath ناقص -->
+                                        <arg>--allow-incomplete-classpath</arg>
+
+                                        <!-- مقداردهی اولیه کلاس‌های JavaFX در زمان ساخت -->
+                                        <arg>--initialize-at-build-time=javafx</arg>
+
+                                        <!-- عدم شکست در صورت وجود عناصر پشتیبانی‌نشده -->
+                                        <arg>--report-unsupported-elements-at-runtime</arg>
+
+                                        <!-- اگر از Reflection استفاده می‌کنید -->
+                                        <arg>-H:+AddAllCharsets</arg>
+                                        <arg>-H:EnableURLProtocols=http,https</arg>
+
+                                        <!-- تنظیمات کارت گرافیک -->
+                                        <arg>-Dprism.verbose=true</arg>
+                                        <arg>-Djavafx.verbose=true</arg>
+
+                                    </nativeImageArgs>
+
+                                    <!-- لیست کلاس‌های مورد نیاز برای Reflection -->
+                                    <reflectionList>
+                                        <list>org.application.desktop.MainApp</list> <!-- اصلاح کنید -->
+                                        <!-- سایر کلاس‌ها -->
+                                    </reflectionList>
+
+                                    <!-- لیست باندل‌های مورد نیاز -->
+                                    <bundlesList>
+                                        <list>org.application</list> <!-- اگر از ResourceBundle استفاده می‌کنید -->
+                                    </bundlesList>
+
+                                    <!-- تنظیمات JVM در زمان اجرا -->
+<!--                                    <jvmArgs>
+                                        <arg>-Djavafx.verbose=true</arg> &lt;!&ndash; برای دیباگ &ndash;&gt;
+                                        <arg>-Dprism.verbose=true</arg>
+                                    </jvmArgs>
+
+                                    &lt;!&ndash; فعال‌سازی کش برای ساخت سریع‌تر &ndash;&gt;
+                                    <usePrecompiledCache>true</usePrecompiledCache>
+                                    <enableCheckHash>true</enableCheckHash>-->
+                                </configuration>
+
+                                <!-- اجرای پلاگین در فاز package -->
+                                <executions>
+                                    <execution>
+                                        <goals>
+                                            <goal>build</goal>
+                                        </goals>
+                                    </execution>
+                                </executions>
+                            </plugin>
+
 
 
                     <!--  <plugin>
