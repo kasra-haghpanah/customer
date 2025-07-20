@@ -270,81 +270,83 @@
 
                     -->
 
-                            <plugin>
-                                <groupId>com.gluonhq</groupId>
-                                <artifactId>gluonfx-maven-plugin</artifactId>
-                                <version>1.0.20</version> <!-- یا آخرین نسخه -->
-                                <configuration>
-                                    <!-- هدف ساخت (host, linux, windows, macos, ios, android) -->
-                                    <target>windows</target>
+                    <plugin>
+                        <groupId>com.gluonhq</groupId>
+                        <artifactId>gluonfx-maven-plugin</artifactId>
+                        <version>1.0.27</version> <!-- یا آخرین نسخه -->
 
-                                    <!-- کلاس اصلی برنامه -->
-                                    <mainClass>org.application.desktop.MainApp</mainClass> <!-- اصلاح کنید -->
+                        <!-- اجرای پلاگین در فاز package -->
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <!-- هدف ساخت (host, linux, windows, macos, ios, android) -->
+                            <!--<target>x86_64-microsoft-windows</target>-->
 
-                                    <!-- تنظیمات GraalVM Native Image -->
-                                    <nativeImageArgs>
-                                        <!-- فعال‌سازی گزارش خطاهای دقیق -->
-                                        <arg>--verbose</arg>
-                                        <arg>-H:+ReportExceptionStackTraces</arg>
+                            <!-- کلاس اصلی برنامه -->
+                            <mainClass>org.application.desktop.MainApp</mainClass> <!-- اصلاح کنید -->
 
-                                        <!-- اجازه استفاده از classpath ناقص -->
-                                        <arg>--allow-incomplete-classpath</arg>
+                            <!-- تنظیمات GraalVM Native Image -->
+                            <nativeImageArgs>
+                                <!-- فعال‌سازی گزارش خطاهای دقیق -->
+                                <arg>--verbose</arg>
+                                <arg>-H:+ReportExceptionStackTraces</arg>
 
-                                        <!-- مقداردهی اولیه کلاس‌های JavaFX در زمان ساخت -->
-                                        <arg>--initialize-at-build-time=javafx</arg>
+                                <!-- اجازه استفاده از classpath ناقص -->
+                                <arg>--allow-incomplete-classpath</arg>
 
-                                        <!-- عدم شکست در صورت وجود عناصر پشتیبانی‌نشده -->
-                                        <arg>--report-unsupported-elements-at-runtime</arg>
+                                <!-- مقداردهی اولیه کلاس‌های JavaFX در زمان ساخت -->
+                                <arg>--initialize-at-build-time=javafx</arg>
 
-                                        <!-- اگر از Reflection استفاده می‌کنید -->
-                                        <arg>-H:+AddAllCharsets</arg>
-                                        <arg>-H:EnableURLProtocols=http,https</arg>
+                                <!-- عدم شکست در صورت وجود عناصر پشتیبانی‌نشده -->
+                                <arg>--report-unsupported-elements-at-runtime</arg>
 
-                                        <!-- تنظیمات کارت گرافیک -->
-                                        <arg>-Dprism.verbose=true</arg>
-                                        <arg>-Djavafx.verbose=true</arg>
+                                <!-- اگر از Reflection استفاده می‌کنید -->
+                                <arg>-H:+AddAllCharsets</arg>
+                                <arg>-H:EnableURLProtocols=http,https</arg>
+
+                                <!-- تنظیمات کارت گرافیک -->
+                                <arg>-Dprism.verbose=true</arg>
+                                <arg>-Djavafx.verbose=true</arg>
 
 
-                                        <arg>--enable-url-protocols=http,https</arg>
-                                        <arg>--initialize-at-build-time=org.application</arg>
-                                        <!--<arg>-H:ResourceConfigurationFiles=src/main/resources/config/view/resource-config.json</arg>
-                                        <arg>-H:ReflectionConfigurationFiles=src/main/resources/config/view/reflect-config.json</arg>-->
-                                        <arg>-H:ReachabilityMetadataFiles=src/main/resources/config/reachability-metadata.json</arg>
+                                <arg>--enable-url-protocols=http,https</arg>
+                                <arg>--initialize-at-build-time=org.application</arg>
+                                <!--<arg>-H:ResourceConfigurationFiles=src/main/resources/config/view/resource-config.json</arg>
+                                <arg>-H:ReflectionConfigurationFiles=src/main/resources/config/view/reflect-config.json</arg>-->
+                                <arg>-H:ReachabilityMetadataFiles=src/main/resources/config/reachability-metadata.json
+                                </arg>
 
-                                    </nativeImageArgs>
+                            </nativeImageArgs>
 
-                                    <!-- لیست کلاس‌های مورد نیاز برای Reflection -->
-                                    <reflectionList>
-                                        <list>org.application.desktop.MainApp</list> <!-- اصلاح کنید -->
-                                        <!-- سایر کلاس‌ها -->
-                                    </reflectionList>
+                            <!-- لیست کلاس‌های مورد نیاز برای Reflection -->
+                            <reflectionList>
+                                <list>org.application.desktop.MainApp</list> <!-- اصلاح کنید -->
+                                <!-- سایر کلاس‌ها -->
+                            </reflectionList>
 
-                                    <!-- لیست باندل‌های مورد نیاز -->
-                                    <bundlesList>
-                                        <list>org.application</list> <!-- اگر از ResourceBundle استفاده می‌کنید -->
-                                    </bundlesList>
+                            <!-- لیست باندل‌های مورد نیاز -->
+                            <bundlesList>
+                                <list>org.application</list> <!-- اگر از ResourceBundle استفاده می‌کنید -->
+                            </bundlesList>
 
-                                    <!-- تنظیمات JVM در زمان اجرا -->
-<!--                                    <jvmArgs>
-                                        <arg>-Djavafx.verbose=true</arg> &lt;!&ndash; برای دیباگ &ndash;&gt;
-                                        <arg>-Dprism.verbose=true</arg>
-                                    </jvmArgs>
+                            <!-- تنظیمات JVM در زمان اجرا -->
+                            <!--                                    <jvmArgs>
+                                                                    <arg>-Djavafx.verbose=true</arg> &lt;!&ndash; برای دیباگ &ndash;&gt;
+                                                                    <arg>-Dprism.verbose=true</arg>
+                                                                </jvmArgs>
 
-                                    &lt;!&ndash; فعال‌سازی کش برای ساخت سریع‌تر &ndash;&gt;
-                                    <usePrecompiledCache>true</usePrecompiledCache>
-                                    <enableCheckHash>true</enableCheckHash>-->
-                                </configuration>
+                                                                &lt;!&ndash; فعال‌سازی کش برای ساخت سریع‌تر &ndash;&gt;
+                                                                <usePrecompiledCache>true</usePrecompiledCache>
+                                                                <enableCheckHash>true</enableCheckHash>-->
+                        </configuration>
 
-                                <!-- اجرای پلاگین در فاز package -->
-                                <executions>
-                                    <execution>
-                                        <goals>
-                                            <goal>build</goal>
-                                        </goals>
-                                    </execution>
-                                </executions>
-                            </plugin>
-
+                    </plugin>
 
 
                     <!--  <plugin>
@@ -524,6 +526,12 @@
 
 
     <repositories>
+
+        <repository>
+            <id>Gluon</id>
+            <url>https://nexus.gluonhq.com/nexus/content/repositories/releases/</url>
+        </repository>
+
         <repository>
             <id>maven</id>
             <name>Maven-Central-Repository</name>

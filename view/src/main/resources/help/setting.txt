@@ -43,5 +43,42 @@ mvn clean install -Pbuild
 -----------------------------------------------------
 For build native image:
 ----------------------
+۱. نصب Visual Studio Build Tools
+دانلود از صفحه رسمی Microsoft
+
+در نصب، گزینه‌های زیر رو فعال کن:
+
+C++ build tools
+
+Windows 10 SDK
+
+MSVC v142 یا v143 (بسته به نسخه ویژوال استودیو)
+
+
+✅ راه‌حل قطعی مرحله‌به‌مرحله:
+💡 اگر فقط Visual Studio رو نصب کردی اما از Command Prompt معمولی استفاده کردی، جواب نمی‌ده.
+✳️ راه‌حل درست اینه:
+Visual Studio باید نصب باشه (با C++ Development)
+اگر نصب نشده:
+
+نصب از: https://visualstudio.microsoft.com/downloads/
+
+موقع نصب حتماً این workload تیک بخوره:
+✅ Desktop development with C++
+
+باز کن:
+
+Start Menu ⟶ سرچ کن:
+
+x64 Native Tools Command Prompt for VS 2022
+
+این رو باز کن.
+
+در اون ترمینال، برو به مسیر پروژه:
+
+cd C:\Users\98911\Desktop\Technical-inistitue-of-Tehran\project\customer
+
+
+
 mvn clean install -Pnative-image
 -----------------------------------------------------
