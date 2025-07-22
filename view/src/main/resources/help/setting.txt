@@ -61,7 +61,8 @@ MSVC v142 یا v143 (بسته به نسخه ویژوال استودیو)
 Visual Studio باید نصب باشه (با C++ Development)
 اگر نصب نشده:
 
-نصب از: https://visualstudio.microsoft.com/downloads/
+https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
 
 موقع نصب حتماً این workload تیک بخوره:
 ✅ Desktop development with C++
@@ -79,6 +80,11 @@ x64 Native Tools Command Prompt for VS 2022
 cd C:\Users\98911\Desktop\Technical-inistitue-of-Tehran\project\customer
 
 
+C:\Users\98911\Desktop\Technical-inistitue-of-Tehran\project\customer
 
-mvn clean install -Pnative-image
+mvn clean package -Pnative-image
+
+mvn clean install -Pnative-image -e
 -----------------------------------------------------
+
+C:\Users\98911\Desktop\Technical-inistitue-of-Tehran\project\customer\view\target\gluonfx\x86_64-windows\gvm\log

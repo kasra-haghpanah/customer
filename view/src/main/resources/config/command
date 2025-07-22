@@ -4,3 +4,7 @@ java --module-path "C:/PC/Application/JAVA-APLICATIONS/javafx-sdk-21.0.2/lib" ^
 -Djava.library.path="C:/PC/Application/JAVA-APLICATIONS/javafx-sdk-21.0.2/bin" ^
 -agentlib:native-image-agent=config-merge-dir=src/main/resources/config ^
 -jar target/view.jar
+
+
+
+java -agentlib:native-image-agent=config-output-dir=src/main/resources/config1 -jar target/view.jar
