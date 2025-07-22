@@ -38,11 +38,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
+<!--        <dependency>
             <groupId>org.graalvm.nativeimage</groupId>
             <artifactId>native-image-maven-plugin</artifactId>
             <version>21.2.0</version>
-        </dependency>
+        </dependency>-->
 
         <!--        <dependency>
                     <groupId>org.graalvm.nativeimage</groupId>
@@ -123,6 +123,36 @@
                     </archive>
                 </configuration>
             </plugin>
+
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.5.1</version>
+                <executions>
+                    <execution>
+                        <id>run-with-agent</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>org.application.desktop.MainApp</mainClass>
+                    <arguments></arguments>
+                    <systemProperties>
+                        <systemProperty>
+                            <key>java.library.path</key>
+                            <value>${env.JAVA_HOME}/lib</value>
+                        </systemProperty>
+                    </systemProperties>
+                    <commandlineArgs>
+                        -agentlib:native-image-agent=config-merge-dir=src/main/resources/config1
+                    </commandlineArgs>
+                </configuration>
+            </plugin>
+
+
 
 
             <!-- mvn javafx:run -->
@@ -273,80 +303,69 @@
                     <plugin>
                         <groupId>com.gluonhq</groupId>
                         <artifactId>gluonfx-maven-plugin</artifactId>
-                        <version>1.0.27</version> <!-- یا آخرین نسخه -->
-
-                        <!-- اجرای پلاگین در فاز package -->
+                        <version>1.0.27</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>
                                 <goals>
+                                    <goal>compile</goal>
                                     <goal>build</goal>
                                 </goals>
                             </execution>
                         </executions>
                         <configuration>
-                            <!-- هدف ساخت (host, linux, windows, macos, ios, android) -->
-                            <!--<target>x86_64-microsoft-windows</target>-->
-
-                            <!-- کلاس اصلی برنامه -->
-                            <mainClass>org.application.desktop.MainApp</mainClass> <!-- اصلاح کنید -->
-
-                            <!-- تنظیمات GraalVM Native Image -->
+                            <mainClass>org.application.desktop.MainApp</mainClass>
                             <nativeImageArgs>
-                                <!-- فعال‌سازی گزارش خطاهای دقیق -->
                                 <arg>--verbose</arg>
                                 <arg>-H:+ReportExceptionStackTraces</arg>
-
-                                <!-- اجازه استفاده از classpath ناقص -->
                                 <arg>--allow-incomplete-classpath</arg>
-
-                                <!-- مقداردهی اولیه کلاس‌های JavaFX در زمان ساخت -->
-                                <arg>--initialize-at-build-time=javafx</arg>
-
-                                <!-- عدم شکست در صورت وجود عناصر پشتیبانی‌نشده -->
                                 <arg>--report-unsupported-elements-at-runtime</arg>
-
-                                <!-- اگر از Reflection استفاده می‌کنید -->
                                 <arg>-H:+AddAllCharsets</arg>
                                 <arg>-H:EnableURLProtocols=http,https</arg>
-
-                                <!-- تنظیمات کارت گرافیک -->
                                 <arg>-Dprism.verbose=true</arg>
                                 <arg>-Djavafx.verbose=true</arg>
-
-
                                 <arg>--enable-url-protocols=http,https</arg>
-                                <arg>--initialize-at-build-time=org.application</arg>
-                                <!--<arg>-H:ResourceConfigurationFiles=src/main/resources/config/view/resource-config.json</arg>
-                                <arg>-H:ReflectionConfigurationFiles=src/main/resources/config/view/reflect-config.json</arg>-->
-                                <arg>-H:ReachabilityMetadataFiles=src/main/resources/config/reachability-metadata.json
-                                </arg>
+
+                                <!-- تنظیمات جدید اضافه شده -->
+                                <arg>--no-fallback</arg>
+                                <!--<arg>-H:+TraceClassInitialization</arg>-->
+                                <arg>--initialize-at-run-time=javafx.scene.Node,javafx.scene.Parent,javafx.scene.Scene</arg>
+                                <arg>--initialize-at-build-time=org.application,javafx,javafx.graphics,javafx.base</arg>
+
+                                <!-- اگر از FXML استفاده می‌کنید -->
+                                <arg>--initialize-at-build-time=javafx.fxml</arg>
+
+
+
+                                <!-- تنظیمات جدید برای JavaFX -->
+                                <arg>--initialize-at-build-time=javafx.graphics</arg>
+                                <arg>-H:+AllowIncompleteClasspath</arg>
+
+
+                                <!--<arg>-H:ReachabilityMetadataFiles=src/main/resources/config/reachability-metadata.json
+                                </arg>-->
 
                             </nativeImageArgs>
 
-                            <!-- لیست کلاس‌های مورد نیاز برای Reflection -->
                             <reflectionList>
-                                <list>org.application.desktop.MainApp</list> <!-- اصلاح کنید -->
-                                <!-- سایر کلاس‌ها -->
+                                <list>org.application.desktop.MainApp</list>
+                                <list>javafx.scene.Node</list>
+                                <list>javafx.scene.Parent</list>
+                                <list>javafx.scene.Scene</list>
+                                <list>javafx.scene.control.Button</list>
+                                <!-- سایر کلاس‌های JavaFX که استفاده می‌کنید -->
                             </reflectionList>
 
-                            <!-- لیست باندل‌های مورد نیاز -->
                             <bundlesList>
-                                <list>org.application</list> <!-- اگر از ResourceBundle استفاده می‌کنید -->
+                                <list>org.application</list>
+                                <list>com.sun.javafx.scene.control.skin.resources.controls</list>
+                                <list>com.sun.javafx.tk.quantum.QuantumMessagesBundle</list>
                             </bundlesList>
 
-                            <!-- تنظیمات JVM در زمان اجرا -->
-                            <!--                                    <jvmArgs>
-                                                                    <arg>-Djavafx.verbose=true</arg> &lt;!&ndash; برای دیباگ &ndash;&gt;
-                                                                    <arg>-Dprism.verbose=true</arg>
-                                                                </jvmArgs>
-
-                                                                &lt;!&ndash; فعال‌سازی کش برای ساخت سریع‌تر &ndash;&gt;
-                                                                <usePrecompiledCache>true</usePrecompiledCache>
-                                                                <enableCheckHash>true</enableCheckHash>-->
+                            <graalvmHome>C:\PC\Application\JAVA-APLICATIONS\GraalVM\graalvm-jdk-24.0.1+9.1</graalvmHome>
                         </configuration>
-
                     </plugin>
+
 
 
                     <!--  <plugin>
