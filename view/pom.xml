@@ -367,6 +367,15 @@
                                 <arg>--enable-url-protocols=http,https</arg>
 
 
+                                <arg>-H:IncludeResources=.*\.fxml$</arg>
+                                <arg>-H:IncludeResources=.*\.css$</arg>
+
+
+
+                                <arg>--initialize-at-build-time=com.sun.javafx</arg>
+
+                                <arg>-H:CLibraryPath=${env.JAVA_HOME}/bin</arg> <!-- اضافه کردن این خط -->
+
 
                                <!-- <buildArg>-H:ConfigurationFileDirectories=${project.basedir}/src/main/resources/config</buildArg>
 
