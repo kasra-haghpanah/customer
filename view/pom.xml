@@ -361,6 +361,13 @@
                                 <arg>--initialize-at-run-time=com.sun.prism.sw.SWPipeline</arg>
 
 
+
+                                <arg>--initialize-at-build-time=javafx</arg>
+
+                                <arg>--enable-url-protocols=http,https</arg>
+
+
+
                                <!-- <buildArg>-H:ConfigurationFileDirectories=${project.basedir}/src/main/resources/config</buildArg>
 
 -->
@@ -381,13 +388,18 @@
                                 <list>javafx.scene.Scene</list>
                                 <list>javafx.scene.control.Button</list>
                                 <!-- سایر کلاس‌های JavaFX که استفاده می‌کنید -->
+                                <list>com.sun.javafx.tk.quantum.QuantumRenderer</list>
                             </reflectionList>
 
                             <bundlesList>
                                 <list>org.application</list>
                                 <list>com.sun.javafx.scene.control.skin.resources.controls</list>
                                 <list>com.sun.javafx.tk.quantum.QuantumMessagesBundle</list>
+                                <list>com/sun/glass/ui/win/themes</list>
+                                <list>com/sun/javafx/scene/control/skin/resources/controls</list>
+                                <list>com/sun/javafx/scene/control/skin/resources/controls-nt</list>
                             </bundlesList>
+
 
                             <graalvmHome>C:\PC\Application\JAVA-APLICATIONS\GraalVM\graalvm-jdk-24.0.1+9.1</graalvmHome>
                         </configuration>
