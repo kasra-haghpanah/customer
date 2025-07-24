@@ -15,7 +15,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>24</java.version>
-        <javafx.version>24.0.1</javafx.version>
+        <javafx.version>21</javafx.version>
         <javafx.sdk>C:/PC/Application/JAVA-APLICATIONS/javafx-sdk-21.0.2</javafx.sdk>
     </properties>
     <dependencies>
@@ -68,6 +68,13 @@
             <artifactId>javafx-graphics</artifactId>
             <version>${javafx.version}</version>
             <classifier>win</classifier>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.gluonhq</groupId>
+            <artifactId>charm-glisten</artifactId>
+            <version>6.2.3</version>
         </dependency>
 
     </dependencies>
@@ -348,6 +355,7 @@
                             </nativeImageArgs>
 
                             <reflectionList>
+                                <list>org.application.desktop.dto.CustomerDTO</list>
                                 <list>org.application.desktop.MainApp</list>
                                 <list>javafx.scene.Node</list>
                                 <list>javafx.scene.Parent</list>

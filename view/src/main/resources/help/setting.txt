@@ -61,6 +61,8 @@ MSVC v142 یا v143 (بسته به نسخه ویژوال استودیو)
 Visual Studio باید نصب باشه (با C++ Development)
 اگر نصب نشده:
 
+vs_BuildTools.exe
+
 https://visualstudio.microsoft.com/visual-cpp-build-tools/
 
 
