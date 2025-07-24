@@ -1,6 +1,6 @@
 [
   {
-    "name": "org.application.desktop.MainApp",
+    "name": "javafx.scene.CssStyleHelper",
     "allDeclaredConstructors": true,
     "allPublicConstructors": true,
     "allDeclaredMethods": true,
@@ -9,12 +9,10 @@
     "allPublicFields": true
   },
   {
-    "name": "org.application.desktop.dto.CustomerDTO",
+    "name": "com.sun.javafx.css.StyleManager",
     "allDeclaredConstructors": true,
     "allPublicConstructors": true,
     "allDeclaredMethods": true,
-    "allPublicMethods": true,
-    "allDeclaredFields": true,
-    "allPublicFields": true
+    "allPublicMethods": true
   }
 ]
