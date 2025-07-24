@@ -370,6 +370,8 @@
                                 <arg>-H:IncludeResources=.*\.fxml$</arg>
                                 <arg>-H:IncludeResources=.*\.css$</arg>
 
+                                <arg>-H:+UnlockExperimentalVMOptions</arg>
+
 
 
                                 <arg>--initialize-at-build-time=com.sun.javafx</arg>
