@@ -1,15 +1,32 @@
 [
   {
-    "name": "javafx.scene.CssStyleHelper",
+    "name": "com.sun.prism.sw.SWPipeline",
     "allDeclaredConstructors": true,
     "allPublicConstructors": true,
     "allDeclaredMethods": true,
     "allPublicMethods": true,
-    "allDeclaredFields": true,
-    "allPublicFields": true
+    "fields": [
+      {
+        "name": "instance"
+      }
+    ]
   },
   {
-    "name": "com.sun.javafx.css.StyleManager",
+    "name": "com.sun.javafx.tk.quantum.QuantumToolkit",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "com.sun.glass.ui.Application",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "javafx.stage.Screen",
     "allDeclaredConstructors": true,
     "allPublicConstructors": true,
     "allDeclaredMethods": true,

@@ -73,5 +73,9 @@ public class ConfigUtil {
         return Integer.valueOf(getProperties().getProperty("database.connection-timeout"));
     }
 
+    public static String getSqlFile() {
+        return getProperties().getProperty("database.sqlFile");
+    }
+
 
 }
