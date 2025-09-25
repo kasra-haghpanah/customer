@@ -53,6 +53,16 @@ public class ConfigUtil {
         return value;
     }
 
+    public static byte[] getResourceAsByteArray(String path) {
+        InputStream input = ConfigUtil.class.getClassLoader().getResourceAsStream(path);
+        byte[] bytes = null;
+        try {
+            return input.readAllBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static String getDatabaseUrl() {
         return getProperties().getProperty("database.url");
     }
