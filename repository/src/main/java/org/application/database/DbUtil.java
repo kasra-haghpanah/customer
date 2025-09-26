@@ -8,6 +8,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class DbUtil {
@@ -51,52 +55,63 @@ public class DbUtil {
     }
 
     public static void importDb(Connection connection, String path) {
+
         try {
             String sqlScript = ConfigUtil.getResource(path);
-            sqlScript = sqlScript.replaceAll("/\\*.*?\\*/*", "");
+
+            // حذف کامنت‌های چندخطی /* ... */
+            sqlScript = sqlScript.replaceAll("/\\*.*?\\*/", "");
+
             // حذف خطوطی که فقط شامل ; هستند
             sqlScript = sqlScript.replaceAll("(?m)^\\s*;\\s*$", "");
 
-            String[] sqlStatements = sqlScript.toString().split(";");
+            // حذف delimiter‌ها چون JDBC از آن‌ها پشتیبانی نمی‌کند
+            sqlScript = sqlScript.replaceAll("(?m)^DELIMITER\\s+\\$\\$", "");
+            sqlScript = sqlScript.replaceAll("(?m)^DELIMITER\\s+;", "");
 
             Statement statement = connection.createStatement();
 
-            for (String sql : sqlStatements) {
-                sql = sql.trim();
-                if (!sql.isEmpty()) {
-                    System.out.println("*********************************** " + sql);
-                    statement.execute(sql);
+            // استخراج بلاک‌های CREATE PROCEDURE
+            Pattern procPattern = Pattern.compile("CREATE\\s+.*?PROCEDURE.*?END\\s*\\$\\$", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+            Matcher matcher = procPattern.matcher(sqlScript);
+
+            List<String> procedures = new ArrayList<>();
+            while (matcher.find()) {
+                String procBlock = matcher.group();
+                procBlock = procBlock.replace("$$", "").trim(); // حذف $$ انتهایی
+                procedures.add(procBlock);
+            }
+
+            // حذف بلاک‌های پروسیجر از متن اصلی
+            sqlScript = matcher.replaceAll("");
+
+            // اجرای بلاک‌های پروسیجر
+            for (String proc : procedures) {
+                System.out.println("Executing procedure:\n" + proc);
+                try {
+                    statement.execute(proc);
+                } catch (Exception e) {
+                    System.err.println("Procedure error: " + e.getMessage());
                 }
             }
 
-
-            // تجزیه اسکریپت به دستورات مجزا با استفاده از JSqlParser
-/*
-            List<String> statements = CCJSqlParserUtil
-                    .parseStatements(sqlScript)
-                    .getStatements()
-                    .stream()
-                    .map(statement -> {
-                        return statement.toString();
-                    })
-                    .collect(Collectors.toList());
-*/
-
-            //  Statement statement = connection.createStatement();
-
-/*            statements.forEach(command -> {
-                try {
-                    System.out.println("*********************************** " + command);
-                    statement.execute(command);
-                } catch (SQLException e) {
-                    System.out.println(e.toString());
+            // اجرای باقی دستورات با split(";")
+            String[] sqlStatements = sqlScript.split(";");
+            for (String sql : sqlStatements) {
+                sql = sql.trim();
+                if (!sql.isEmpty()) {
+                    System.out.println("Executing SQL:\n" + sql);
+                    try {
+                        statement.execute(sql);
+                    } catch (Exception e) {
+                        System.err.println("SQL error: " + e.getMessage());
+                    }
                 }
-            });*/
+            }
 
         } catch (Exception e) {
-            System.out.println(e.toString());
+            System.err.println("Import error: " + e.getMessage());
         }
-
 
     }
 
