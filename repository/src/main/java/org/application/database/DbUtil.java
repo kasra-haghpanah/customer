@@ -26,7 +26,7 @@ public class DbUtil {
         config.setMaximumPoolSize(ConfigUtil.getMaximumPoolSize()); // تعداد session های دیتابیس
         config.setConnectionTimeout(ConfigUtil.getConnectionTimeout()); //که یک درخواست حداکثر 30 ثانیه می‌تواند منتظر بماند
         dataSource = new HikariDataSource(config);
-        importDb(getMariaDBConnection(), ConfigUtil.getSqlFile());
+        importMySql(getMariaDBConnection(), ConfigUtil.getSqlFile());
     }
 
     public static Connection getMariaDBConnection() {
@@ -54,7 +54,7 @@ public class DbUtil {
 
     }
 
-    public static void importDb(Connection connection, String path) {
+    public static void importMySql(Connection connection, String path) {
 
         try {
             String sqlScript = ConfigUtil.getResource(path);
