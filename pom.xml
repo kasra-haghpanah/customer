@@ -55,8 +55,7 @@
 
     <!-- to make release  -->
     <!--
-    mvn versions:set "-DnewVersion=1.0.0"
-    mvn versions:set -DnewVersion=1.0.0 ->  Central Publishing Plugin(New)
+    mvn versions:set "-DnewVersion=1.0.0" ->  Central Publishing Plugin(New)
     mvn clean deploy     ->  Central Publishing Plugin(New)
 
 
