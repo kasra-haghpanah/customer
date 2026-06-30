@@ -212,7 +212,7 @@
 
             </properties>
             <activation> <!-- for run application -->
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
                 <property>
                     <name>build</name>
                     <value>develop</value>
@@ -251,7 +251,7 @@
 
             </properties>
             <activation> <!-- for build application -->
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
                 <property>
                     <name>build</name>
                     <value>build</value>
