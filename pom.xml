@@ -55,6 +55,7 @@
 
     <!-- to make release  -->
     <!--
+    mvn clean deploy
     mvn release:prepare
     mvn release:perform
     -->
@@ -75,6 +76,7 @@
         <developer>
             <id>kasra-haghpanah</id>
             <name>Kasra Haghpanah</name>
+            <email>kasrakhpk1985@gmail.com</email>
         </developer>
     </developers>
 
@@ -83,6 +85,10 @@
         <developerConnection>scm:git:https://github.com/kasra-haghpanah/customer.git</developerConnection>
         <url>https://github.com/kasra-haghpanah/customer</url>
         <tag>HEAD</tag>
+<!--        <connection> scm:git:git://github.com/kasra-haghpanah/customer.git </connection>
+        <developerConnection>scm:git:ssh://github.com/kasra-haghpanah/customer.git</developerConnection>
+        <url> https://github.com/kasra-haghpanah/customer</url>
+        <tag>HEAD</tag>-->
     </scm>
 
     <distributionManagement>
@@ -108,10 +114,11 @@
             </plugin>
 
 
+            <!-- Source JAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.1</version>
+                <version>3.4.0</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -122,10 +129,11 @@
                 </executions>
             </plugin>
 
+            <!-- Javadoc JAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.11.2</version>
+                <version>3.12.0</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -136,6 +144,7 @@
                 </executions>
             </plugin>
 
+            <!-- GPG Signing -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
@@ -151,14 +160,16 @@
                 </executions>
             </plugin>
 
+            <!-- Maven Central Publishing -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>3.1.1</version>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.11.0</version>
+                <extensions>true</extensions>
                 <configuration>
-                    <tagNameFormat>${project.version}</tagNameFormat>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <releaseProfiles>release</releaseProfiles>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
+                    <waitUntil>published</waitUntil>
                 </configuration>
             </plugin>
 
