@@ -94,6 +94,9 @@
         <tag>HEAD</tag>-->
     </scm>
 
+
+<!--
+    for maven-release-plugin
     <distributionManagement>
         <repository>
             <id>my-central</id>
@@ -101,6 +104,7 @@
         </repository>
     </distributionManagement>
 
+-->
 
     <build>
         <plugins>
