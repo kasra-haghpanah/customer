@@ -145,10 +145,19 @@
             </plugin>
 
             <!-- GPG Signing -->
+
+            <!-- mvn clean install -Dgpg.skip=true  -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>3.2.8</version>
+
+
+                <!--  where gpg -->
+                <configuration>
+                    <executable>C:\Program Files\GnuPG\bin\gpg.exe</executable>
+                </configuration>
+
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
