@@ -97,9 +97,10 @@
 
     <scm>
         <connection>scm:git:https://github.com/kasra-haghpanah/customer.git</connection>
-        <developerConnection>scm:git:https://github.com/kasra-haghpanah/customer.git</developerConnection>
+        <developerConnection>scm:git:ssh://git@github.com/kasra-haghpanah/customer.git</developerConnection>
         <url>https://github.com/kasra-haghpanah/customer</url>
         <tag>HEAD</tag>
+
 <!--        <connection> scm:git:git://github.com/kasra-haghpanah/customer.git </connection>
         <developerConnection>scm:git:ssh://github.com/kasra-haghpanah/customer.git</developerConnection>
         <url> https://github.com/kasra-haghpanah/customer</url>
@@ -109,21 +110,16 @@
 
     <!--for maven-release-plugin-->
 
-<!--
     <distributionManagement>
-        <repository>
-            <id>my-central</id>
-            <url>https://central.sonatype.com/api/v1/publisher</url>
-            &lt;!&ndash;<url>http://my.domain.com/repository/hosted-Release/</url>&ndash;&gt;
-        </repository>
-
         <snapshotRepository>
-            <id>snapshots</id>
-            <name>snapshots</name>
-            <url>http://my.domain.com/repository/hosted-Snapshot/</url>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
         </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
     </distributionManagement>
--->
 
 
     <build>
@@ -237,6 +233,20 @@
                     </configuration>
                 </plugin>
 
+
+                <!-- Nexus Staging -->
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>1.7.0</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <serverId>ossrh</serverId>
+                        <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    </configuration>
+                </plugin>
+
                 <!-- Maven Release Plugin -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -284,9 +294,14 @@
             </plugin>
 
             <!-- Maven Central Publishing -->
-            <plugin>
+<!--            <plugin>
                 <groupId>org.sonatype.central</groupId>
                 <artifactId>central-publishing-maven-plugin</artifactId>
+            </plugin>-->
+
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
             </plugin>
 
 
