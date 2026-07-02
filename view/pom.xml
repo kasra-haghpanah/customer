@@ -255,17 +255,17 @@
 
             <build>
                 <plugins>
-                    <!--<plugin>
+                    <plugin>
                         <groupId>org.openjfx</groupId>
                         <artifactId>javafx-maven-plugin</artifactId>
                         <version>0.0.8</version>
                         <configuration>
                             <mainClass>org.application.desktop.MainApp</mainClass>
-                            &lt;!&ndash;<options>
+                            <!--<options>
                                 <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005</option>
-                            </options>&ndash;&gt;
+                            </options>-->
                         </configuration>
-                    </plugin>-->
+                    </plugin>
                 </plugins>
             </build>
         </profile>
