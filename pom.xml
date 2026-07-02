@@ -56,7 +56,7 @@
             </dependency>
 
             <dependency>
-                <groupId>org.application</groupId>
+                <groupId>io.github.kasra-haghpanah</groupId>
                 <artifactId>utility</artifactId>
                 <version>${project.version}</version>
             </dependency>
