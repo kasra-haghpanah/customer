@@ -236,7 +236,7 @@
                         <waitUntil>published</waitUntil>
 
                         <excludeArtifacts>
-                            <excludeArtifact>view</excludeArtifact>
+                            <excludeArtifact>io.github.kasra-haghpanah:view</excludeArtifact>
                         </excludeArtifacts>
 
                     </configuration>
