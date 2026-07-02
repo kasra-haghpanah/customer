@@ -255,17 +255,17 @@
 
             <build>
                 <plugins>
-                    <plugin>
+                    <!--<plugin>
                         <groupId>org.openjfx</groupId>
                         <artifactId>javafx-maven-plugin</artifactId>
                         <version>0.0.8</version>
                         <configuration>
                             <mainClass>org.application.desktop.MainApp</mainClass>
-                            <!--<options>
+                            &lt;!&ndash;<options>
                                 <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005</option>
-                            </options>-->
+                            </options>&ndash;&gt;
                         </configuration>
-                    </plugin>
+                    </plugin>-->
                 </plugins>
             </build>
         </profile>
@@ -589,11 +589,11 @@
             <url>https://nexus.gluonhq.com/nexus/content/repositories/releases/</url>
         </repository>
 
-        <repository>
+<!--        <repository>
             <id>maven</id>
             <name>Maven-Central-Repository</name>
             <url>https://mvnrepository.com/artifact</url>
-        </repository>
+        </repository>-->
 
         <repository>
             <id>central</id>
