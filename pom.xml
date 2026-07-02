@@ -14,7 +14,7 @@
         <module>model</module>
         <module>repository</module>
         <module>service</module>
-        <!--<module>view</module>-->
+        <module>view</module>
     </modules>
 
     <properties>
