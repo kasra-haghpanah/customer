@@ -10,6 +10,8 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <packaging>jar</packaging>
+
     <artifactId>service</artifactId>
 
     <properties>

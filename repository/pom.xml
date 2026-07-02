@@ -11,6 +11,7 @@
     </parent>
 
     <artifactId>repository</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
 
