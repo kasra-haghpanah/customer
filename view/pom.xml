@@ -261,9 +261,9 @@
                         <version>0.0.8</version>
                         <configuration>
                             <mainClass>org.application.desktop.MainApp</mainClass>
-                            <options>
+                            <!--<options>
                                 <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005</option>
-                            </options>
+                            </options>-->
                         </configuration>
                     </plugin>
                 </plugins>
