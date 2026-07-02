@@ -110,6 +110,7 @@
 
     <!--for maven-release-plugin-->
 
+<!--
     <distributionManagement>
         <snapshotRepository>
             <id>my-central</id>
@@ -120,6 +121,7 @@
             <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
+-->
 
 
     <build>
@@ -221,7 +223,7 @@
                 </plugin>
 
                 <!-- Maven Central Publishing -->
-<!--                <plugin>
+                <plugin>
                     <groupId>org.sonatype.central</groupId>
                     <artifactId>central-publishing-maven-plugin</artifactId>
                     <version>0.11.0</version>
@@ -230,20 +232,6 @@
                         <publishingServerId>my-central</publishingServerId>
                         <autoPublish>true</autoPublish>
                         <waitUntil>published</waitUntil>
-                    </configuration>
-                </plugin>-->
-
-
-                <!-- Nexus Staging -->
-                <plugin>
-                    <groupId>org.sonatype.plugins</groupId>
-                    <artifactId>nexus-staging-maven-plugin</artifactId>
-                    <version>1.6.13</version>
-                    <extensions>true</extensions>
-                    <configuration>
-                        <serverId>my-central</serverId>
-                        <nexusUrl>https://s01.oss.sonatype.org/service/local/</nexusUrl>
-                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
                     </configuration>
                 </plugin>
 
@@ -294,15 +282,15 @@
             </plugin>
 
             <!-- Maven Central Publishing -->
-<!--            <plugin>
+            <plugin>
                 <groupId>org.sonatype.central</groupId>
                 <artifactId>central-publishing-maven-plugin</artifactId>
-            </plugin>-->
+            </plugin>
 
-            <plugin>
+<!--            <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-            </plugin>
+            </plugin>-->
 
 
 <!--
