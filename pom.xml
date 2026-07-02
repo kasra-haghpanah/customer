@@ -234,6 +234,11 @@
                         <publishingServerId>my-central</publishingServerId>
                         <autoPublish>true</autoPublish>
                         <waitUntil>published</waitUntil>
+
+                        <excludeArtifacts>
+                            <excludeArtifact>view</excludeArtifact>
+                        </excludeArtifacts>
+
                     </configuration>
                 </plugin>
 
