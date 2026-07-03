@@ -71,7 +71,7 @@
     <!--
     mvn versions:set "-DnewVersion=1.0.0" ->  Central Publishing Plugin(New)
     mvn clean deploy     ->  Central Publishing Plugin(New)
-    mvn -X deploy > debug.log 2>&1
+    mvn -X deploy > debug.txt 2>&1
 
     mvn release:prepare  ->  maven-release-plugin(Old)
     mvn release:perform  ->  maven-release-plugin(Old)
@@ -235,9 +235,9 @@
                         <autoPublish>true</autoPublish>
                         <waitUntil>published</waitUntil>
 
-                        <excludeArtifacts>
+<!--                        <excludeArtifacts>
                             <excludeArtifact>io.github.kasra-haghpanah:view</excludeArtifact>
-                        </excludeArtifacts>
+                        </excludeArtifacts>-->
 
                     </configuration>
                 </plugin>
